@@ -1,0 +1,25 @@
+{
+  "name": "StyleScript",
+  "version": "1.0",
+  "description": "My First Extension",
+  "permissions": ["storage", "activeTab", "tabs"],
+    "background": {
+      "scripts": ["background.js"],
+      "persistent": false
+    },
+  "browser_action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "js": ["content-script.js"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["https://style-script.herokuapp.com/oauth/callback*"],
+      "js": ["sync.js"]
+    }
+  ],
+  "manifest_version": 2
+}

@@ -1,0 +1,70 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>dashboard</title>
+    <style>
+      body {
+        font-size: 14px!important;
+        margin: 3px!important;
+      }
+      .tree {
+        width: 300px;
+        margin-right: 10px;
+        float: left;
+        height: 100%;
+        overflow-y: auto;
+      }
+      .tree>ul>li {
+        cursor: pointer;
+      }
+
+      .editor {
+        float: left;
+        width: 1000;
+      }
+
+      .code {
+        font-family: 'monospace';
+        font-size: 13px!important;
+        overflow-x: scroll;
+        white-space: nowrap;
+      }
+
+      .editor input {
+        margin-bottom: 5px;
+      }
+
+      .tree ul span {
+        cursor: pointer;
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="tree">
+      <ul class="css list-group navbar">
+        <span class="add-css">+ CSS</span>
+
+      </ul>
+
+      <ul class="js list-group navbar">
+        <span class="add-js">+ JS</span>
+      </ul>
+    </div>
+    <div class="editor">
+      <input type="text" class="form-control title" placeholder="Title">
+      <input type="text" class="form-control match" placeholder="Match">
+      <textarea class="form-control code" rows="26"></textarea>
+      <input type="submit" value="save" class="btn btn-primary mb-2 save">
+      <input type="submit" value="delete" style="float: right;" class="btn btn-danger mb-2 delete">
+    </div>
+    <script src="./storage.js" type="module"></script>
+    <script src="./dashboard.js" type="module"></script>
+  </body>
+</html>
