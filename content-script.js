@@ -42,7 +42,6 @@ function getStorage() {
       const scriptTag = document.createElement('script');
       scriptTag.innerHTML = script.content;
       document.querySelector('html').append(scriptTag);
-      console.log(script)
     }
   });
 

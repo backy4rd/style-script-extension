@@ -5,8 +5,8 @@
     <title>dashboard</title>
     <style>
       body {
-        font-size: 14px!important;
-        margin: 3px!important;
+        font-size: 14px !important;
+        margin: 3px !important;
       }
       .tree {
         width: 300px;
@@ -15,7 +15,7 @@
         height: 100%;
         overflow-y: auto;
       }
-      .tree>ul>li {
+      .tree > ul > li {
         cursor: pointer;
       }
 
@@ -24,11 +24,9 @@
         width: 1000;
       }
 
-      .code {
-        font-family: 'monospace';
-        font-size: 13px!important;
-        overflow-x: scroll;
-        white-space: nowrap;
+      #code {
+        height: 500px;
+        font-size: 16px;
       }
 
       .editor input {
@@ -50,7 +48,6 @@
     <div class="tree">
       <ul class="css list-group navbar">
         <span class="add-css">+ CSS</span>
-
       </ul>
 
       <ul class="js list-group navbar">
@@ -58,12 +55,33 @@
       </ul>
     </div>
     <div class="editor">
-      <input type="text" class="form-control title" placeholder="Title">
-      <input type="text" class="form-control match" placeholder="Match">
-      <textarea class="form-control code" rows="26"></textarea>
-      <input type="submit" value="save" class="btn btn-primary mb-2 save">
-      <input type="submit" value="delete" style="float: right;" class="btn btn-danger mb-2 delete">
+      <input type="text" class="form-control title" placeholder="Title" />
+      <input type="text" class="form-control match" placeholder="Match" />
+      <div id="code"></div>
+      <input type="submit" value="save" class="btn btn-primary mb-2 save" />
+      <input
+        type="submit"
+        value="delete"
+        style="float: right;"
+        class="btn btn-danger mb-2 delete"
+      />
     </div>
+
+    <script
+      src="./cdn/ace.min.js"
+      type="text/javascript"
+      charset="utf-8"
+    ></script>
+    <script
+      src="./cdn/mode-css.min.js"
+      type="text/javascript"
+      charset="utf-8"
+    ></script>
+    <script
+      src="./cdn/mode-javascript.min.js"
+      type="text/javascript"
+      charset="utf-8"
+    ></script>
     <script src="./storage.js" type="module"></script>
     <script src="./dashboard.js" type="module"></script>
   </body>

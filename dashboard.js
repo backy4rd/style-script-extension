@@ -1,14 +1,14 @@
-import { getStorage, setStorage } from './storage.js'
+import { getStorage, setStorage } from './storage.js';
 
 const css = document.querySelector('.css');
 const js = document.querySelector('.js');
 const match = document.querySelector('.match');
 const title = document.querySelector('.title');
-const code = document.querySelector('.code');
 
 const current = { type: null, title: null };
-let storage;
 
+let storage;
+let editor;
 
 function renderFileTree() {
   [...document.querySelectorAll('.css li')].forEach((ele) => ele.remove());
@@ -24,8 +24,9 @@ function renderFileTree() {
       current.type = 'css';
       current.title = style.title;
 
+      editor.session.setMode('ace/mode/css');
+      editor.session.setValue(style.content);
       title.value = style.title;
-      code.value = style.content;
       match.value = style.match;
 
       if (document.querySelector('ul li.active')) {
@@ -45,8 +46,9 @@ function renderFileTree() {
       current.type = 'js';
       current.title = script.title;
 
+      editor.session.setMode('ace/mode/javascript');
+      editor.session.setValue(script.content);
       title.value = script.title;
-      code.value = script.content;
       match.value = script.match;
 
       if (document.querySelector('ul li.active')) {
@@ -61,7 +63,9 @@ async function save(type, desTitle) {
   if (type !== 'css' && type !== 'js') {
     throw 'unknown type';
   }
-  const isConflict = storage.data[type].find((item) => item.title === title.value);
+  const isConflict = storage.data[type].find(
+    (item) => item.title === title.value,
+  );
   if (isConflict && desTitle !== title.value) {
     return alert('conflict title');
   }
@@ -69,7 +73,7 @@ async function save(type, desTitle) {
 
   ele.title = title.value;
   ele.match = match.value;
-  ele.content = code.value;
+  ele.content = editor.getValue();
 
   current.type = type;
   current.title = title.value;
@@ -93,7 +97,7 @@ document.querySelector('.delete').addEventListener('click', async () => {
   if (!confirm('are you sure to delete this file!!!')) return;
 
   del(current.type, current.title);
-  await setStorage(storage)
+  await setStorage(storage);
   renderFileTree();
 });
 
@@ -133,6 +137,9 @@ document.querySelector('.add-js').addEventListener('click', () => {
 
 (async () => {
   storage = await getStorage();
+
+  editor = ace.edit('code');
+  // editor.session.setMode('ace/mode/javascript');
 
   renderFileTree();
 })();

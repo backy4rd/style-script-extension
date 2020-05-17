@@ -117,17 +117,20 @@ backupBtn.addEventListener('click', async () => {
       body: JSON.stringify({
         description: 'Style Script Sync Gist',
         files: {
-          "storage.json": {
+          'storage.json': {
             content: JSON.stringify(await getStorage()),
           },
         },
       }),
     };
 
-    const response = await fetch(`https://api.github.com/gists/${syncGist.id}`, option);
+    const response = await fetch(
+      `https://api.github.com/gists/${syncGist.id}`,
+      option,
+    );
     const json = await response.json();
     console.log(json);
-    console.log(await getStorage())
+    console.log(await getStorage());
 
     if (response.status === 200) {
       alert('backup success');
@@ -145,7 +148,7 @@ backupBtn.addEventListener('click', async () => {
       body: JSON.stringify({
         description: 'Style Script Sync Gist',
         files: {
-          "storage.json": {
+          'storage.json': {
             content: JSON.stringify(await getStorage()),
           },
         },
@@ -175,7 +178,7 @@ syncBtn.addEventListener('click', async () => {
     (gist) => gist.description === 'Style Script Sync Gist',
   );
 
-  console.log(syncGist)
+  console.log(syncGist);
   if (!syncGist) {
     return alert('not have any backup');
   }
@@ -195,12 +198,12 @@ syncBtn.addEventListener('click', async () => {
   console.log(json);
 
   if (response.status !== 200) {
-    return alert('sync fail')
+    return alert('sync fail');
   }
   if (json.error) {
-    return alert('sync fail')
+    return alert('sync fail');
   }
- 
+
   await setStorage(json);
   alert('sync success');
 });
