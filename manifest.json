@@ -3,10 +3,15 @@
   "version": "1.0",
   "description": "My First Extension",
   "permissions": ["storage", "activeTab", "tabs"],
-    "background": {
-      "scripts": ["background.js"],
-      "persistent": false
-    },
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "icons": {
+    "16": "icon/icon_16.png",
+    "48": "icon/icon_48.png",
+    "128": "icon/icon_128.png"
+  },
   "browser_action": {
     "default_popup": "popup.html"
   },
