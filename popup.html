@@ -27,6 +27,17 @@
         width: 124px;
         float: right;
       }
+      ul {
+        list-style: none;
+      }
+      ul .active::before {
+        content: '\2022';
+        color: red;
+        font-weight: bold;
+        display: inline-block;
+        width: 1em;
+        margin-left: -1em;
+      }
     </style>
   </head>
 

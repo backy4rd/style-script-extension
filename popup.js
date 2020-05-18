@@ -7,6 +7,7 @@ const syncBtn = document.querySelector('.sync');
 const dashboardBtn = document.querySelector('.dashboard');
 
 let storage;
+const scripts = [];
 
 function render() {
   storage.data.css.forEach((style) => {
@@ -61,6 +62,7 @@ function render() {
 
     li.append(enable, title);
     js.append(li);
+    scripts.push(li);
   });
 }
 
@@ -213,7 +215,27 @@ dashboardBtn.addEventListener('click', () => {
   window.open(url, '_blank');
 });
 
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.type == 'script-count' && !request.data.error) {
+    const activeTitles = request.data.titles;
+    console.log(activeTitles)
+    scripts.forEach(script => {
+      const title = script.querySelector('span').innerText;
+      if (activeTitles.find(activeTitle => activeTitle === title)) {
+        script.classList.add('active');
+      }
+    })
+  }
+});
+
 (async () => {
   storage = await getStorage();
   render();
+
+  chrome.tabs.query({ currentWindow: true, active: true }, (tabArray) => {
+    chrome.tabs.sendMessage(tabArray[0].id, {
+      type: 'give me script count',
+      data: null,
+    });
+  });
 })();

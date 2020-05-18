@@ -8,7 +8,7 @@ const title = document.querySelector('.title');
 const current = { type: null, title: null };
 
 let storage;
-let editor;
+var editor;
 
 function renderFileTree() {
   [...document.querySelectorAll('.css li')].forEach((ele) => ele.remove());
@@ -25,7 +25,7 @@ function renderFileTree() {
       current.title = style.title;
 
       editor.session.setMode('ace/mode/css');
-      editor.session.setValue(style.content);
+      editor.setValue(style.content);
       title.value = style.title;
       match.value = style.match;
 
@@ -47,7 +47,7 @@ function renderFileTree() {
       current.title = script.title;
 
       editor.session.setMode('ace/mode/javascript');
-      editor.session.setValue(script.content);
+      editor.setValue(script.content);
       title.value = script.title;
       match.value = script.match;
 

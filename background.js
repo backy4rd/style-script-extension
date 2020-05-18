@@ -1,4 +1,4 @@
-chrome.runtime.onInstalled.addListener(function (details) {
+chrome.runtime.onInstalled.addListener((details) => {
   if (details.reason == 'install') {
     const meta = {
       data: {
@@ -13,9 +13,28 @@ chrome.runtime.onInstalled.addListener(function (details) {
   }
 });
 
-chrome.runtime.onMessage.addListener(function(request, sender) {
-    if (request.type !== "token") return;
-    if (request.data.error) return;
+// set notification color
+chrome.browserAction.setBadgeBackgroundColor({ color: [90, 90, 90, 255] });
 
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.type == 'token' && !request.data.error) {
     chrome.storage.sync.set(request.data);
+    return;
+  }
+
+  if (request.type == 'script-count' && !request.data.error) {
+    chrome.browserAction.setBadgeText({ text: request.data.count.toString() });
+
+    return;
+  }
+
+  sendResponse('ok');
+});
+
+// send request to active tab to receive scriptCount
+chrome.tabs.onActivated.addListener((activeInfo) => {
+  chrome.tabs.sendMessage(activeInfo.tabId, {
+    type: 'give me script count',
+    data: null,
+  });
 });
