@@ -8,13 +8,13 @@ const title = document.querySelector('.title');
 const current = { type: null, title: null };
 
 let storage;
-var editor;
+let editor;
 
 function renderFileTree() {
-  [...document.querySelectorAll('.css li')].forEach((ele) => ele.remove());
-  [...document.querySelectorAll('.js li')].forEach((ele) => ele.remove());
+  [...document.querySelectorAll('.css li')].forEach(ele => ele.remove());
+  [...document.querySelectorAll('.js li')].forEach(ele => ele.remove());
 
-  storage.data.css.forEach((style) => {
+  storage.data.css.forEach(style => {
     const ele = document.createElement('li');
     ele.innerHTML = style.title;
     ele.classList.add('list-group-item', 'list-group-item-action');
@@ -36,7 +36,7 @@ function renderFileTree() {
     };
   });
 
-  storage.data.js.forEach((script) => {
+  storage.data.js.forEach(script => {
     const ele = document.createElement('li');
     ele.innerHTML = script.title;
     ele.classList.add('list-group-item', 'list-group-item-action');
@@ -61,15 +61,15 @@ function renderFileTree() {
 
 async function save(type, desTitle) {
   if (type !== 'css' && type !== 'js') {
-    throw 'unknown type';
+    throw new Error('unknown type');
   }
   const isConflict = storage.data[type].find(
-    (item) => item.title === title.value,
+    item => item.title === title.value,
   );
   if (isConflict && desTitle !== title.value) {
     return alert('conflict title');
   }
-  const ele = storage.data[type].find((item) => item.title === desTitle);
+  const ele = storage.data[type].find(item => item.title === desTitle);
 
   ele.title = title.value;
   ele.match = match.value;
@@ -82,7 +82,7 @@ async function save(type, desTitle) {
 }
 
 function del(type, title) {
-  const target = storage.data[type].find((ele) => ele.title === title);
+  const target = storage.data[type].find(ele => ele.title === title);
 
   if (target) {
     storage.data[type].splice(storage.data[type].indexOf(target), 1);
@@ -121,11 +121,11 @@ document.querySelector('.add-js').addEventListener('click', () => {
   renderFileTree();
 });
 
-[...document.getElementsByTagName('textarea')].forEach((textarea) => {
+[...document.getElementsByTagName('textarea')].forEach(textarea => {
   textarea.addEventListener('keydown', function (event) {
     if (event.keyCode == 9 || event.which == 9) {
       event.preventDefault();
-      var start = this.selectionStart;
+      let start = this.selectionStart;
       this.value =
         this.value.substring(0, this.selectionStart) +
         '    ' +

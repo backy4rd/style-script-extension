@@ -10,7 +10,7 @@ let storage;
 const scripts = [];
 
 function render() {
-  storage.data.css.forEach((style) => {
+  storage.data.css.forEach(style => {
     const li = document.createElement('li');
 
     const title = document.createElement('span');
@@ -37,7 +37,7 @@ function render() {
     css.append(li);
   });
 
-  storage.data.js.forEach((script) => {
+  storage.data.js.forEach(script => {
     const li = document.createElement('li');
 
     const title = document.createElement('span');
@@ -102,7 +102,7 @@ backupBtn.addEventListener('click', async () => {
   }
 
   const syncGist = gists.find(
-    (gist) => gist.description === 'Style Script Sync Gist',
+    gist => gist.description === 'Style Script Sync Gist',
   );
 
   if (syncGist) {
@@ -177,7 +177,7 @@ syncBtn.addEventListener('click', async () => {
   }
 
   const syncGist = gists.find(
-    (gist) => gist.description === 'Style Script Sync Gist',
+    gist => gist.description === 'Style Script Sync Gist',
   );
 
   console.log(syncGist);
@@ -215,16 +215,16 @@ dashboardBtn.addEventListener('click', () => {
   window.open(url, '_blank');
 });
 
+// handle active script
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.type == 'script-count' && !request.data.error) {
     const activeTitles = request.data.titles;
-    console.log(activeTitles)
     scripts.forEach(script => {
       const title = script.querySelector('span').innerText;
       if (activeTitles.find(activeTitle => activeTitle === title)) {
         script.classList.add('active');
       }
-    })
+    });
   }
 });
 
@@ -232,7 +232,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   storage = await getStorage();
   render();
 
-  chrome.tabs.query({ currentWindow: true, active: true }, (tabArray) => {
+  // request active script
+  chrome.tabs.query({ currentWindow: true, active: true }, tabArray => {
     chrome.tabs.sendMessage(tabArray[0].id, {
       type: 'give me script count',
       data: null,

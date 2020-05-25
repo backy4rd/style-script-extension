@@ -5,13 +5,13 @@ let scriptInfo = {
 
 function getStorage() {
   return new Promise((resolve, reject) => {
-    chrome.storage.local.get(null, (data) => {
+    chrome.storage.local.get(null, data => {
       resolve(data);
     });
   });
 }
 
-// trigger when switch tab
+// trigger when switch tab, open popup
 // send scriptCount to background.js
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.type === 'give me script count') {
@@ -28,7 +28,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   const onDocumentStart = [];
   const onDocumentReady = [];
 
-  storage.data.js.forEach((script) => {
+  // specify execute timẹ
+  storage.data.js.forEach(script => {
     const regex = /\/\/\s+@run-at\s+document-start\b/;
 
     if (regex.test(script.content)) {
@@ -38,7 +39,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     }
   });
 
-  onDocumentStart.forEach((script) => {
+  onDocumentStart.forEach(script => {
     if (!script.match) return;
     const regex = new RegExp(script.match);
     if (regex.test(url) && script.enable) {
@@ -51,7 +52,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   });
 
   window.onload = function () {
-    onDocumentReady.forEach((script) => {
+    onDocumentReady.forEach(script => {
       if (!script.match) return;
       const regex = new RegExp(script.match);
       if (regex.test(url) && script.enable) {
@@ -63,10 +64,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       }
     });
 
-    chrome.runtime.sendMessage({ type: 'script-count', data: scriptCount });
+    // send message to background.js to change badge
+    chrome.runtime.sendMessage({ type: 'script-count', data: scriptInfo });
   };
 
-  storage.data.css.forEach((style) => {
+  storage.data.css.forEach(style => {
     if (!style.match) return;
     const regex = new RegExp(style.match);
     if (regex.test(url) && style.enable) {

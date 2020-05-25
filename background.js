@@ -1,4 +1,4 @@
-chrome.runtime.onInstalled.addListener((details) => {
+chrome.runtime.onInstalled.addListener(details => {
   if (details.reason == 'install') {
     const meta = {
       data: {
@@ -32,7 +32,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 // send request to active tab to receive scriptCount
-chrome.tabs.onActivated.addListener((activeInfo) => {
+chrome.tabs.onActivated.addListener(activeInfo => {
   chrome.tabs.sendMessage(activeInfo.tabId, {
     type: 'give me script count',
     data: null,
